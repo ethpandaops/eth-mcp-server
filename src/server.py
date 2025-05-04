@@ -24,8 +24,9 @@ load_dotenv()
 # Initialize FastAPI app
 app = FastAPI(title="Ethereum MCP Server")
 
-# Initialize Web3
+# Initialize Web3 and get chain ID
 w3 = Web3(Web3.HTTPProvider(os.getenv("ETH_RPC_URL", "http://192.168.50.70:8545")))
+chain_id = int(os.getenv("CHAIN_ID", w3.eth.chain_id))
 
 # Initialize managers
 wallet_manager = WalletManager(w3)
@@ -44,7 +45,33 @@ async def handle_mcp_request(request: MCPRequest) -> MCPResponse:
                 id=request.id,
                 result={
                     "address": wallet["address"],
-                    "privateKey": wallet["privateKey"]
+                    "privateKey": wallet["privateKey"],
+                    "chainId": chain_id
+                }
+            )
+            
+        elif request.method == "eth_importWallet":
+            private_key = request.params.get("privateKey")
+            if not private_key:
+                raise HTTPException(status_code=400, detail="Private key is required")
+                
+            wallet = wallet_manager.import_wallet(private_key)
+            return MCPResponse(
+                id=request.id,
+                result={
+                    "address": wallet["address"],
+                    "privateKey": wallet["privateKey"],
+                    "chainId": chain_id
+                }
+            )
+            
+        elif request.method == "eth_listWallets":
+            wallets = wallet_manager.list_wallets()
+            return MCPResponse(
+                id=request.id,
+                result={
+                    "addresses": wallets,
+                    "chainId": chain_id
                 }
             )
             
@@ -56,7 +83,24 @@ async def handle_mcp_request(request: MCPRequest) -> MCPResponse:
             balance = wallet_manager.get_balance(address)
             return MCPResponse(
                 id=request.id,
-                result=str(balance)
+                result={
+                    "balance": str(balance),
+                    "chainId": chain_id
+                }
+            )
+            
+        elif request.method == "eth_getTransactionCount":
+            address = request.params.get("address")
+            if not address:
+                raise HTTPException(status_code=400, detail="Address is required")
+                
+            nonce = wallet_manager.get_transaction_count(address)
+            return MCPResponse(
+                id=request.id,
+                result={
+                    "count": nonce,
+                    "chainId": chain_id
+                }
             )
             
         elif request.method == "eth_getTransactionHistory":
@@ -75,14 +119,20 @@ async def handle_mcp_request(request: MCPRequest) -> MCPResponse:
             
             return MCPResponse(
                 id=request.id,
-                result=history
+                result={
+                    "transactions": history,
+                    "chainId": chain_id
+                }
             )
             
         elif request.method == "eth_getGasPriceEstimate":
             estimate = transaction_manager.get_gas_price_estimate()
             return MCPResponse(
                 id=request.id,
-                result=estimate
+                result={
+                    **estimate,
+                    "chainId": chain_id
+                }
             )
             
         else:
