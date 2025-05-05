@@ -1,5 +1,7 @@
 # Ethereum MCP Server
 
+WARNING: THIS REPO IS HIGHLY EXPERIMENTAL AND LIKELY TO NOT WORK AT THIS MOMENT. IT'S UNDER ACTIVE DEVELOPMENT AND WE WILL UPDATE THIS WARNING ONCE IT'S CONSIDERED SAFE TO RUN.
+
 A comprehensive Ethereum MCP server implementation with wallet management, transaction handling, and contract interaction capabilities. Built with FastAPI and Web3.py.
 
 ## Features
