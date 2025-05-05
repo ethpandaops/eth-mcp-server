@@ -128,17 +128,6 @@ python src/server.py
 }
 ```
 
-## Security
-
-- Private keys are stored in memory only
-- All sensitive operations require proper authentication
-- Environment variables for configuration
-- Input validation and sanitization
-- Rate limiting for API endpoints
-- Gas limit validation
-- Nonce management
-- Transaction signing security
-
 ## Development
 
 ### Project Structure
