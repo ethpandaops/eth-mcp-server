@@ -18,9 +18,18 @@ from web3.exceptions import (
     NameNotFound,
     TimeExhausted,
     TransactionNotFound,
-    ValidationError,
     Web3Exception,
 )
+
+# For web3 v6+, ValidationError is not directly available from web3.exceptions
+# We'll handle validation errors through other exception types or create our own
+try:
+    from web3.exceptions import ValidationError
+except ImportError:
+    # Define our own ValidationError for compatibility
+    class ValidationError(Web3Exception):
+        """Custom validation error for web3 v6+ compatibility."""
+        pass
 
 logger = logging.getLogger(__name__)
 

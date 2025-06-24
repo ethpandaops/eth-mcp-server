@@ -22,6 +22,7 @@ from .request_validator import (
     ContractCallParams,
     EventFilterParams,
 )
+from .response_formatter import ResponseFormatterMiddleware
 
 __all__ = [
     'validate_request',
@@ -43,4 +44,5 @@ __all__ = [
     'ContractDeployParams',
     'ContractCallParams',
     'EventFilterParams',
+    'ResponseFormatterMiddleware',
 ]

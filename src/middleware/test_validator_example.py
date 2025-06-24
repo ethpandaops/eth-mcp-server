@@ -98,7 +98,7 @@ async def handle_validation_errors():
     try:
         result = await risky_transaction(params=invalid_params)
     except ValueError as e:
-        print(f"Caught validation error: {e}")
+        # print(f"Caught validation error: {e}")  # Commented out for CI
         # Handle the error appropriately
         return {"error": str(e)}
 
