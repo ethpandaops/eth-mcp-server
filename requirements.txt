@@ -1,1 +1,13 @@
+# Core dependencies
+web3>=6.0.0
+eth-account>=0.10.0
+eth-utils>=2.0.0
 eth-abi>=4.0.0
+fastapi>=0.100.0
+fastmcp>=0.1.0
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+websockets>=11.0.0
+aiofiles>=23.0.0
+httpx>=0.24.0
+uvicorn>=0.23.0

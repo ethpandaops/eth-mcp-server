@@ -72,4 +72,116 @@ log/
 .env.test.local
 .env.production.local
 *.pem
-.ruff_cache/ 
+.ruff_cache/
+
+# MyPy
+.mypy_cache/
+dmypy.json
+dmypy.sock
+
+# Coverage reports
+coverage.json
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+htmlcov/
+
+# pytest
+.pytest_cache/
+pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# Flask/Django stuff:
+instance/
+.webassets-cache
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+doc/_build/
+
+# PyBuilder
+target/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Profiling
+*.prof
+*.lprof
+
+# Pre-commit
+.pre-commit-config.yaml.lock
+
+# Security reports
+bandit-report.json
+
+# Package manager locks (keeping poetry.lock and Pipfile.lock commented above)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+.tmp/
+
+# Cache directories
+.cache/
+__pycache__/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk 
