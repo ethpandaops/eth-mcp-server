@@ -1,0 +1,58 @@
+[flake8]
+max-line-length = 100
+max-complexity = 10
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    *.egg-info,
+    .pytest_cache,
+    .mypy_cache,
+    .coverage,
+    htmlcov,
+    .tox,
+    docs/conf.py,
+    migrations/
+
+ignore =
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # E501: line too long (handled by black)
+    E501,
+    # D100: Missing docstring in public module
+    D100,
+    # D104: Missing docstring in public package
+    D104,
+    # D105: Missing docstring in magic method
+    D105,
+    # D107: Missing docstring in __init__
+    D107,
+
+per-file-ignores =
+    # F401: imported but unused (common in __init__.py files)
+    __init__.py:F401,
+    # D101,D102,D103: Missing docstrings in tests
+    test_*.py:D101,D102,D103,
+    tests/*.py:D101,D102,D103,
+
+# McCabe complexity
+max-complexity = 10
+
+# Enable these plugins
+enable-extensions = 
+    # G: logging format string checks
+    G,
+
+# Docstring configuration
+docstring-convention = google
+
+# Count errors
+count = True
+statistics = True
+show-source = True
