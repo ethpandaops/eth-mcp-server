@@ -29,7 +29,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/pyproject.toml') }}
@@ -78,7 +78,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/pip
@@ -96,7 +96,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install -r requirements.txt
           pip install pytest pytest-cov pytest-asyncio pytest-timeout pytest-mock
           
       - name: Run tests with coverage
@@ -105,7 +105,7 @@ jobs:
           
       - name: Upload coverage reports
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
@@ -114,7 +114,7 @@ jobs:
           
       - name: Upload coverage HTML report
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: htmlcov/
@@ -149,7 +149,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install -r requirements.txt
           pip install pytest pytest-asyncio requests websockets
           
       - name: Wait for Ethereum node
@@ -197,7 +197,7 @@ jobs:
           bandit -r src/ -f json -o bandit-report.json || true
           
       - name: Upload security reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-reports
           path: |
@@ -230,7 +230,7 @@ jobs:
           twine check dist/*
           
       - name: Upload distribution artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: distribution
           path: dist/
