@@ -1,0 +1,1 @@
+# Tests package for eth-mcp-server

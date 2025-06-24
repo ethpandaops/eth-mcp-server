@@ -101,6 +101,46 @@ def test_get_all_wallet_balances():
     
     return balances
 
+def test_deploy_contract(address, private_key):
+    # Simple storage contract bytecode
+    contract_bytecode = "0x608060405234801561001057600080fd5b506040516101e83803806101e88339818101604052602081101561003357600080fd5b810190808051906020019092919050505080600081905550506101928061005b6000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806360fe47b11461003b5780636d4ce63c14610069575b600080fd5b6100676004803603602081101561005157600080fd5b8101908080359060200190929190505050610087565b005b610071610091565b6040518082815260200191505060405180910390f35b8060008190555050565b6000805490509056fea2646970667358221220d6c860c2875c9f0e0d0c2c4c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c64736f6c634300060c0033"
+    
+    response = requests.post(
+        BASE_URL,
+        json={
+            "method": "eth_deployContract",
+            "params": {
+                "from": address,
+                "privateKey": private_key,
+                "bytecode": contract_bytecode,
+                "gas": 2000000
+            }
+        }
+    )
+    print("Deploy Contract Response:", response.json())
+    return response.json()["result"]["contractAddress"]
+
+def test_call_contract_method(contract_address, address, private_key, method_name, params=None):
+    if params is None:
+        params = []
+        
+    response = requests.post(
+        BASE_URL,
+        json={
+            "method": "eth_callContractMethod",
+            "params": {
+                "contractAddress": contract_address,
+                "from": address,
+                "privateKey": private_key,
+                "methodName": method_name,
+                "params": params,
+                "gas": 2000000
+            }
+        }
+    )
+    print(f"Call {method_name} Response:", response.json())
+    return response.json()["result"]
+
 async def main():
     # Test wallet creation
     address = test_create_wallet()
@@ -124,6 +164,18 @@ async def main():
     # Test gas price
     print("\nGas price estimates:")
     gas_prices = test_get_gas_price()
+    
+    # Test contract deployment and method calls
+    print("\nTesting contract deployment and method calls:")
+    contract_address = test_deploy_contract(address, private_key)
+    print(f"Deployed contract at: {contract_address}")
+    
+    # Test setting a value
+    test_call_contract_method(contract_address, address, private_key, "set", [42])
+    
+    # Test getting the value
+    result = test_call_contract_method(contract_address, address, private_key, "get")
+    print(f"Contract value: {result}")
     
     # Test transaction monitoring
     try:
