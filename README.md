@@ -21,12 +21,85 @@ A comprehensive Ethereum MCP server implementation with wallet management, trans
 - Nonce management
 - Transaction monitoring
 
-### Contract Interaction (Coming Soon)
-- Deploy contracts
-- Call contract methods
-- Execute contract transactions
-- Contract event listening
-- ABI handling
+### Contract Interaction
+- Deploy contracts with ABI
+- Load existing contracts
+- Call state-changing methods
+- Read contract state
+- Query contract events
+- ABI management
+
+#### Deploy Contract
+Deploy a new contract with its bytecode and ABI:
+```json
+{
+  "method": "eth_deployContract",
+  "params": {
+    "from": "0x742d35Cc6634C0532925a3b844Bc9e7595f62b8e",
+    "abi": [...],  // Contract ABI array
+    "bytecode": "0x608060...",  // Contract bytecode
+    "constructorArgs": ["arg1", 123]  // Optional constructor arguments
+  }
+}
+```
+
+#### Load Contract
+Load an existing deployed contract:
+```json
+{
+  "method": "eth_loadContract",
+  "params": {
+    "address": "0x1234567890123456789012345678901234567890",
+    "abi": [...]  // Contract ABI array
+  }
+}
+```
+
+#### Call Contract Method (State-Changing)
+Execute a transaction that changes contract state:
+```json
+{
+  "method": "eth_callContractMethod",
+  "params": {
+    "contractAddress": "0x1234567890123456789012345678901234567890",
+    "methodName": "transfer",
+    "args": ["0x742d35Cc6634C0532925a3b844Bc9e7595f62b8e", 1000],
+    "from": "0x742d35Cc6634C0532925a3b844Bc9e7595f62b8e"
+  }
+}
+```
+
+#### Read Contract State
+Call a view/pure function without sending a transaction:
+```json
+{
+  "method": "eth_readContract",
+  "params": {
+    "contractAddress": "0x1234567890123456789012345678901234567890",
+    "methodName": "balanceOf",
+    "args": ["0x742d35Cc6634C0532925a3b844Bc9e7595f62b8e"]
+  }
+}
+```
+
+#### Query Contract Events
+Retrieve past events from a contract:
+```json
+{
+  "method": "eth_getContractEvents",
+  "params": {
+    "contractAddress": "0x1234567890123456789012345678901234567890",
+    "eventName": "Transfer",
+    "fromBlock": 0,
+    "toBlock": "latest",
+    "filters": {  // Optional event filters
+      "from": "0x742d35Cc6634C0532925a3b844Bc9e7595f62b8e"
+    }
+  }
+}
+```
+
+**Note:** All contract interaction methods require the contract ABI (Application Binary Interface) to properly encode/decode function calls and events. The ABI must be provided as a JSON array following the standard Ethereum ABI format.
 
 ### Token Management (Coming Soon)
 - ERC20 balance checking
