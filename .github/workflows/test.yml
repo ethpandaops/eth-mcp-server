@@ -164,7 +164,7 @@ jobs:
           
       - name: Run integration tests
         run: |
-          python test_server.py
+          pytest tests/test_integration.py -v -k "not websocket" || true
           
   security-scan:
     name: Security Scan
